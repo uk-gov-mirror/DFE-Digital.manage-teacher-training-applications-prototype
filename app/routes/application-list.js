@@ -347,6 +347,7 @@ module.exports = router => {
         app.daysToRespond = 1000
       }
 
+      app.rejectedAutomaticallyDate = rbd.toISODate();
       app.statusText = ApplicationHelper.getStatusText(app);
 
       return app

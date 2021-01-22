@@ -17,9 +17,13 @@
       }) }}
       {% if a.status == 'Awaiting decision' %}
         {% if a.daysToRespond == 0 %}
-          <p class="govuk-!-font-size-16 govuk-!-margin-top-0 govuk-!-margin-bottom-1">Less than a day to respond</p>
+          <p class="govuk-!-font-size-16 govuk-!-margin-top-0 govuk-!-margin-bottom-1">
+            Less than a day to respond ({{a.rejectedAutomaticallyDate | govukDate}})
+          </p>
         {% else %}
-          <p class="govuk-!-font-size-16 govuk-!-margin-top-0 govuk-!-margin-bottom-1">{{ a.daysToRespond }} days left to respond</p>
+          <p class="govuk-!-font-size-16 govuk-!-margin-top-0 govuk-!-margin-bottom-1">
+            {{ a.daysToRespond }} days left to respond ({{a.rejectedAutomaticallyDate | govukDate}})
+          </p>
         {% endif %}
       {% endif %}
       <p class="govuk-caption-m govuk-!-font-size-16 govuk-!-margin-bottom-0">{{ a.cycle | cycleText }}</p>
