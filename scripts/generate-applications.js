@@ -23,11 +23,11 @@ const generateReferences = require('../app/data/generators/references')
 const generateInterviewNeeds = require('../app/data/generators/interview-needs')
 const generateSafeguarding = require('../app/data/generators/safeguarding')
 const generateDisability = require('../app/data/generators/disability')
+const generateDiversityQuestionnaire = require('../app/data/generators/diversity-questionnaire')
 
 // Fake data generators: application management
 const generateOffer = require('../app/data/generators/offer')
 const generateRejection = require('../app/data/generators/rejection')
-const generateWithdrawal = require('../app/data/generators/withdrawal')
 const generateNotes = require('../app/data/generators/notes')
 const generateEvents = require('../app/data/generators/events')
 const generateInterviews = require('../app/data/generators/interviews')
@@ -103,7 +103,8 @@ const generateFakeApplication = (params = {}) => {
     references: params.references || generateReferences(faker),
     miscellaneous: params.miscellaneous || faker.lorem.paragraph(),
     safeguarding: params.safeguarding || generateSafeguarding(faker),
-    disability: params.disability || generateDisability(faker)
+    disability: params.disability || generateDisability(faker),
+    diversityQuestionnaire: params.diversityQuestionnaire || generateDiversityQuestionnaire({sexInteger: personalDetails.sexInteger})
   }
 }
 

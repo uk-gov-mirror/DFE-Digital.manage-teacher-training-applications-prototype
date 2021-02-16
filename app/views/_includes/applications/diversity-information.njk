@@ -1,119 +1,99 @@
 {% set providerHasViewDiversityInformationPermission = [true, false] | random %}
 
-{# Whether candidate has completed diversity questionnaire #}
-{% set diversityQuestionnaireCompleted = application.personalDetails.diversityQuestionnaireAnswered %}
+{% set canYouCompleteQuestionnaireAnswer %}
+  {% if application.diversityQuestionnaire.answered %}
+    Yes, continue to the questionnaire
+  {% else %}
+    No, continue without completing questionnaire
+  {% endif %}
+{% endset %}
+{% set ethnicDescriptionQuestion %}
+  {% if application.diversityQuestionnaire.ethnicGroup == 'Asian or Asian British' %}
+    Which of the following best describes your Asian or Asian British background?
+  {% elseif application.diversityQuestionnaire.ethnicGroup == 'Black, African, Black British or Caribbean' %}
+    Which of the following best describes your Black, African, Black British or Caribbean background?
+  {% elseif application.diversityQuestionnaire.ethnicGroup == 'Mixed or multiple ethnic groups' %}
+    Which of the following best describes your Mixed or multiple ethnic groups background?
+  {% elseif application.diversityQuestionnaire.ethnicGroup == 'White' %}
+    Which of the following best describes your White background?
+  {% elseif application.diversityQuestionnaire.ethnicGroup == 'Another ethnic group' %}
+    Which of the following best describes your ethnicity?
+  {% endif %}
+{% endset %}
+{% set disabilitiesAnswer %}
+  <ul class="govuk-list govuk-list--bullet">
+    {% for disability in application.diversityQuestionnaire.disabilities %}
+      <li>{{disability}}</li>
+    {% endfor %}
+  </ul>
+{% endset %}
 
-{% set applicationAccepted = (application.status == "Accepted" or application.status == "Conditions met") %}
-
-{% set offerContext = 'your' if application.status=='Offered' else 'an' %}
-
-
-{% set diversityInformationSummaryList %}
-
-  {% set isDisabled = true if application.personalDetails.disabledAnswer == "Yes" %}
-
-  {% set disabledText %}
-    {% if isDisabled %}
-      {% set disabilities =application.personalDetails.disabilities %}
-        {# Don't think 0 is possible with current survey questions #}
-        {% if (disabilities | length == 0) %}
-          No disabilities disclosed
-        {% else %}
-        <p class="govuk-body">
-          The candidate disclosed the following {{ 'disability' | pluralise(disabilities | length) }}:
-        </p>
-        <ul class="govuk-list govuk-list--bullet">
-          {% for disability in disabilities %}
-            <li>{{disability}}</li>
-          {% endfor %}
-        </ul>
-        {% endif %}
-
-    {% else %}
-      No
-    {% endif %}
-
-
-  {%  endset %}
+{% if providerHasViewDiversityInformationPermission and (application.status == "Accepted" or application.status == "Conditions met") %}
 
   {{ govukSummaryList({
-    rows: [{
-      key: {
-        text: "Sex"
+    rows: [
+      {
+        key: {
+          text: "Can you complete a 3-minute questionnaire?"
+        },
+        value: {
+          text: canYouCompleteQuestionnaireAnswer
+        }
       },
-      value: {
-        html: application.personalDetails.sex
-      }
-    }, {
-      key: {
-        text: "Ethnic group"
+      {
+        key: {
+          text: "What is your ethnic group?"
+        },
+        value: {
+          text: application.diversityQuestionnaire.ethnicGroup
+        }
       },
-      value: {
-        html: application.personalDetails.ethnicGroup
-      }
-    }, {
-      key: {
-        text: "Disabled"
+      {
+        key: {
+          text: ethnicDescriptionQuestion
+        },
+        value: {
+          text: application.diversityQuestionnaire.ethnicDescription
+        }
+      } if application.diversityQuestionnaire.ethnicDescription,
+      {
+        key: {
+          text: "Are you disabled"
+        },
+        value: {
+          text: application.diversityQuestionnaire.areYouDisabled
+        }
       },
-      value: {
-        html: application.personalDetails.disabledAnswer
+      {
+        key: {
+          text: "Please select all that apply to you"
+        },
+        value: {
+          html: disabilitiesAnswer
+        }
+      } if application.diversityQuestionnaire.disabilites,
+      {
+        key: {
+          text: "What is your sex?"
+        },
+        value: {
+          html: application.diversityQuestionnaire.sex
+        }
       }
-    }, {
-      key: {
-        text: "Disabilities"
-      },
-      value: {
-        html: disabledText
-      }
-    } if isDisabled
     ]
   }) }}
-{% endset %}
-
-{# {% set diversityInformationGuidanceHtml %}
-  <h2 class="govuk-heading-m">Equality and diversity</h2>
-  <p class="govuk-body">
-    The equality and diversity questionnaire is optional and has no impact on the progress of your application.
-  </p>
-  <p class="govuk-body">
-    We collect this data to reduce discrimination on the basis of sex, disability and ethnicity.
-  </p>
-  <p class="govuk-body">
-    Your data will only be shared with training providers when you are enrolled on a course.
-  </p>
-{% endset %}
-
-{{ govukDetails({
-  summaryText: "View guidance given to candidate",
-  html: diversityInformationGuidanceHtml
-}) }} #}
-
-
-{% if diversityQuestionnaireCompleted %}
-
-  {% if providerHasViewDiversityInformationPermission %}
-
-    {% if applicationAccepted %}
-      {{ diversityInformationSummaryList | safe}}
-    {% else %}
-      <p class="govuk-body">The candidate disclosed information in the equality and diversity questionnaire.</p>
-      <p class="govuk-body">You’ll be able to view this when {{offerContext}} offer has been accepted.</p>
-    {% endif %}
-
-  {% else %}
-
-     <p class="govuk-body">The candidate disclosed information in the equality and diversity questionnaire.</p>
-     {% if applicationAccepted %}
-        <p class="govuk-body">This section is only available to users with permission to ‘view diversity information’.</p>
-      {% else %}
-        <p class="govuk-body">This will become available to users with permission to ‘view diversity information’ when {{offerContext}} offer has been accepted.</p>
-    {% endif %}
-
-  {% endif %}
-
 {% else %}
-  <p class="govuk-body">{{appNoInformationShared()}}</p>
+<p>This section will be available after any offer has been accepted.</p>
 {% endif %}
 
+{#
 
+What if it's available but no permission?
 
+The candidate disclosed information in the equality and diversity questionnaire. You’ll be able to view this when any offer has been accepted.
+
+OR
+
+The candidate disclosed information in the equality and diversity questionnaire. This will become available to users with permission to ‘view diversity information’ when any offer has been accepted.
+
+#}
