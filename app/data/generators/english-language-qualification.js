@@ -56,3 +56,45 @@ module.exports = (faker) => {
       }
   }
 }
+
+/*
+Have you done an English as a foreign language assessment?
+Yes
+No, English is not a foreign language to me
+No, I have not done an English as a foreign language assessment
+| If you’re planning on doing an assessment, give details here (optional)
+
+// if yes
+What English language assessment did you do?
+International English Language Testing System (IELTS)
+Test of English as a Foreign Language (TOEFL)
+Other
+
+// if IELTS
+Test report form (TRF) number
+For example, 02GB0674SOOM599A
+[                            ]
+
+Overall band score
+For example, 7.5
+[                              ]
+
+When did you complete the assessment?
+Give the year, for example: ‘2020’
+[        ]
+
+// if TOEFL
+TOEFL registration number
+For example, 0000 0000 2500 2147
+[                              ]
+
+Total score
+For example, 92
+[        ]
+
+When did you complete the assessment?
+Give the year, for example: ‘2020’
+[        ]
+
+
+*/
