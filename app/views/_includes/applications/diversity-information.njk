@@ -47,7 +47,7 @@
         value: {
           text: application.diversityQuestionnaire.ethnicGroup
         }
-      },
+      } if application.diversityQuestionnaire.ethnicGroup,
       {
         key: {
           text: ethnicDescriptionQuestion
@@ -58,12 +58,12 @@
       } if application.diversityQuestionnaire.ethnicDescription,
       {
         key: {
-          text: "Are you disabled"
+          text: "Are you disabled?"
         },
         value: {
           text: application.diversityQuestionnaire.areYouDisabled
         }
-      },
+      } if application.diversityQuestionnaire.areYouDisabled,
       {
         key: {
           text: "Please select all that apply to you"
@@ -71,7 +71,7 @@
         value: {
           html: disabilitiesAnswer
         }
-      } if application.diversityQuestionnaire.disabilites,
+      } if application.diversityQuestionnaire.disabilities,
       {
         key: {
           text: "What is your sex?"
@@ -79,11 +79,11 @@
         value: {
           html: application.diversityQuestionnaire.sex
         }
-      }
+      } if application.diversityQuestionnaire.sex
     ]
   }) }}
 {% else %}
-<p>This section will be available after any offer has been accepted.</p>
+<p>This section will be available after any offer has been accepted and you have permission to view diversity information.</p>
 {% endif %}
 
 {#
