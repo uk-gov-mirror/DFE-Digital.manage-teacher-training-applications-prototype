@@ -83,17 +83,10 @@
     ]
   }) }}
 {% else %}
-<p>This section will be available after any offer has been accepted and you have permission to view diversity information.</p>
+
+  {% if application.status == 'Accepted' or application.status == 'Conditions met' or application.status == 'Conditions not met' or application.status == 'Rejected' or application.status == 'Application withdrawn' %}
+    <p><span class="app-permission-text">Unavailable: you and your organisation both need permission to view diversity information.</span></p>
+  {% else %}
+    <p><span class="app-permission-text">Unavailable: you’ll see this information once an offer has been accepted, or the application is rejected or withdrawn.</span></p>
+  {% endif %}
 {% endif %}
-
-{#
-
-What if it's available but no permission?
-
-The candidate disclosed information in the equality and diversity questionnaire. You’ll be able to view this when any offer has been accepted.
-
-OR
-
-The candidate disclosed information in the equality and diversity questionnaire. This will become available to users with permission to ‘view diversity information’ when any offer has been accepted.
-
-#}

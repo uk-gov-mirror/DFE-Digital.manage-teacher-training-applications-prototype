@@ -96,5 +96,17 @@ When did you complete the assessment?
 Give the year, for example: ‘2020’
 [        ]
 
+// if other
+
+Assessment name
+For example, CAE (Cambridge Advanced English), Pearson Test of English
+[                              ]
+
+Score or grade
+[                              ]
+
+When did you complete the assessment?
+Give the year, for example: ‘2020’
+[         ]
 
 */
