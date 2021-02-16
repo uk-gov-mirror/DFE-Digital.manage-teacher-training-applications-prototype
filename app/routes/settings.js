@@ -2,6 +2,14 @@ const applications = require('../data/applications')
 const _ = require('lodash');
 module.exports = router => {
 
+  router.get('/admin/settings', (req, res) => {
+    res.render('admin/settings', {
+      internationalApplications: req.session.data.applications.filter((app) => {
+        return app.personalDetails.isInternationalCandidate
+      })
+    })
+  })
+
   router.post('/admin/settings/new-cycle', (req, res) => {
 
     var settings = req.session.data.settings

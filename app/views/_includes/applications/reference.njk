@@ -25,14 +25,6 @@
   {% endif %}
 {% endset %}
 
-{# <p class="govuk-body">Amended by referee:</p>
-    {{ govukInsetText({
-      text: reference.relationship.correction,
-      classes: "govuk-!-margin-top-0 govuk-!-padding-top-0 govuk-!-padding-bottom-0"
-    }) }}
-  {% endif %} #}
-
-
 {% set safeguardingResponseHtml -%}
   {%- if reference.safeguarding.response == "yes" -%}
     <p class="govuk-body">Yes</p>
@@ -54,13 +46,6 @@
     },
     value: {
       html: "<a href=\"mailto:" + reference.email + "\">" + reference.email + "</a>"
-    }
-  }, {
-    key: {
-      text: "Phone number"
-    },
-    value: {
-      html: "<a href=\"tel:" + reference.tel | replace(" ", "") + "\">" + reference.tel + "</a>"
     }
   }, {
     key: {

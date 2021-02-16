@@ -46,6 +46,15 @@
 
   </form>
 
+  <h2 class="govuk-heading-m">
+    International candidates
+  </h2>
+  <ul class="govuk-list govuk-list--bullet">
+    {% for application in internationalApplications %}
+      <li><a href="/applications/{{application.id}}">{{application.personalDetails.name}}</a></li>
+    {% endfor %}
+  </ul>
+
 
 
 {% endblock %}
